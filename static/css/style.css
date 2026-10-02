@@ -3884,15 +3884,7 @@ button {
         overflow-wrap: anywhere;
     }
 
-    .music-player {
-        position: fixed !important;
-        left: 8px !important;
-        right: 8px !important;
-        bottom: 8px !important;
-        width: calc(100% - 16px) !important;
-        max-width: none !important;
-        box-sizing: border-box !important;
-    }
+    
 
     img,
     video {
@@ -3911,9 +3903,6 @@ button {
         gap: 12px 10px !important;
     }
 
-    .music-player {
-        left: 6px !important;
-        right: 6px !important;
-        bottom: 6px !important;
-    }
+    
 }
+
