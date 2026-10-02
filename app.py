@@ -59,13 +59,7 @@ init_db()
 # Welcome Page
 @app.route("/")
 def home():
-    if session.get("user_id"):
-        return render_template(
-            "welcome.html",
-            user_name=session.get("user_name")
-        )
-
-    return render_template("welcome.html")
+    return render_template("index.html")
 
 
 # Music Player
@@ -161,6 +155,56 @@ def signup():
         return redirect(url_for("login"))
 
     return render_template("signup.html")
+
+# Forgot Password Page
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "POST":
+
+        email = request.form.get("email", "").strip().lower()
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not email or not new_password or not confirm_password:
+            flash("Please fill all fields.", "error")
+            return redirect(url_for("forgot_password"))
+
+        if new_password != confirm_password:
+            flash("Passwords do not match.", "error")
+            return redirect(url_for("forgot_password"))
+
+        if len(new_password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            return redirect(url_for("forgot_password"))
+
+        conn = sqlite3.connect("beatnova.db")
+        cursor = conn.cursor()
+
+        user = cursor.execute(
+            "SELECT id FROM users WHERE email = ?",
+            (email,)
+        ).fetchone()
+
+        if not user:
+            conn.close()
+            flash("No account found with this email.", "error")
+            return redirect(url_for("forgot_password"))
+
+        hashed_password = generate_password_hash(new_password)
+
+        cursor.execute(
+            "UPDATE users SET password = ? WHERE email = ?",
+            (hashed_password, email)
+        )
+
+        conn.commit()
+        conn.close()
+
+        flash("Password reset successfully! Please login.", "success")
+        return redirect(url_for("login"))
+
+    return render_template("forgot_password.html")
 
 # Songs API
 @app.route("/api/songs")

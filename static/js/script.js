@@ -21,7 +21,7 @@ function decryptJioSaavnUrl(encUrl) {
     } catch (e) { return ""; }
 }
 
-async function fetchSongsFromServer(searchQuery = "bollywood") {
+async function fetchSongsFromServer(searchQuery = "bollywood", showSearchResults = false) {
     try {
         const res = await fetch("/api/songs?q=" + encodeURIComponent(searchQuery));
         const data = await res.json();
@@ -46,6 +46,62 @@ async function fetchSongsFromServer(searchQuery = "bollywood") {
                     image: item.image ? item.image.replace("150x150", "500x500") : ""
                 };
             });
+            // SHOW SEARCH RECOMMENDATIONS
+            if (showSearchResults) {
+                const dropdown = document.getElementById("searchResultsDropdown");
+
+                if (dropdown) {
+                    dropdown.innerHTML = "";
+
+                    if (tracks.length === 0) {
+                        dropdown.innerHTML = `
+                <div style="padding:15px;color:#aaa;">
+                    No songs found
+                </div>
+            `;
+                    } else {
+                        tracks.slice(0, 8).forEach((track, index) => {
+                            const item = document.createElement("div");
+
+                            item.className = "search-result-item";
+                            item.style.cssText = `
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    padding:10px 14px;
+                    cursor:pointer;
+                    color:white;
+                `;
+
+                            item.innerHTML = `
+                    <img src="${track.image || ''}"
+                         style="width:42px;height:42px;object-fit:cover;border-radius:6px;background:#333;">
+
+                    <div>
+                        <div style="font-size:14px;font-weight:600;">
+                            ${track.title}
+                        </div>
+                        <div style="font-size:12px;color:#aaa;">
+                            ${track.artist}
+                        </div>
+                    </div>
+                `;
+
+                            item.addEventListener("click", () => {
+                                loadTrack(index);
+                                playTrack();
+                                dropdown.style.display = "none";
+                                searchInput.value = track.title;
+                                addSearchHistory(track.title);
+                            });
+
+                            dropdown.appendChild(item);
+                        });
+                    }
+
+                    dropdown.style.display = "block";
+                }
+            }
 
             const trendingGrid = document.querySelector("#trending .track-grid");
             if (trendingGrid) {
@@ -533,19 +589,8 @@ sections.forEach((section) => {
 
 
 
-document.querySelector(".signup-button").addEventListener(
-    "click",
-    () => {
-        alert("Account creation will be added soon.");
-    }
-);
 
-document.querySelector(".login-button").addEventListener(
-    "click",
-    () => {
-        alert("Login system will be added soon.");
-    }
-);
+
 
 
 // INITIALIZE
@@ -558,26 +603,163 @@ const searchInput = document.getElementById("searchInput");
 
 const trackCards = document.querySelectorAll(".track-card");
 
+
+// =============================
+// SEARCH HISTORY
+// =============================
+
+const searchDropdown = document.getElementById("searchResultsDropdown");
+
+function getSearchHistory() {
+    return JSON.parse(localStorage.getItem("beatnovaSearchHistory") || "[]");
+}
+
+function saveSearchHistory(history) {
+    localStorage.setItem("beatnovaSearchHistory", JSON.stringify(history));
+}
+
+function renderSearchHistory() {
+    if (!searchDropdown) return;
+
+    const history = getSearchHistory();
+
+    searchDropdown.innerHTML = "";
+
+    if (history.length === 0) {
+        searchDropdown.innerHTML = `
+            <div style="padding: 16px; color: #aaa; font-size: 13px;">
+                No recent searches
+            </div>
+        `;
+        searchDropdown.style.display = "block";
+        return;
+    }
+
+    const header = document.createElement("div");
+    header.style.cssText = `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        color: #aaa;
+        font-size: 12px;
+        border-bottom: 1px solid #333;
+    `;
+
+    header.innerHTML = `
+        <span>RECENT SEARCHES</span>
+        <button id="clearSearchHistory" style="
+            background: none;
+            border: none;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 12px;
+        ">Clear all</button>
+    `;
+
+    searchDropdown.appendChild(header);
+
+    history.forEach(query => {
+        const item = document.createElement("div");
+
+        item.className = "search-result-item";
+        item.style.cssText = `
+            padding: 12px 14px;
+            color: #eee;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+
+        const icon = document.createElement("span");
+        icon.textContent = "◷";
+
+        const text = document.createElement("span");
+        text.textContent = query;
+
+        item.appendChild(icon);
+        item.appendChild(text);
+
+        item.addEventListener("click", () => {
+            searchInput.value = query;
+            searchDropdown.style.display = "none";
+            searchInput.dispatchEvent(new Event("input"));
+        });
+
+        searchDropdown.appendChild(item);
+    });
+
+    document.getElementById("clearSearchHistory").addEventListener("click", (event) => {
+        event.stopPropagation();
+        localStorage.removeItem("beatnovaSearchHistory");
+        renderSearchHistory();
+    });
+
+    searchDropdown.style.display = "block";
+}
+
+function addSearchHistory(query) {
+    const cleanQuery = query.trim();
+
+    if (!cleanQuery) return;
+
+    let history = getSearchHistory();
+
+    history = history.filter(
+        item => item.toLowerCase() !== cleanQuery.toLowerCase()
+    );
+
+    history.unshift(cleanQuery);
+
+    history = history.slice(0, 8);
+
+    saveSearchHistory(history);
+}
+
 if (searchInput) {
     let searchTimeout;
+    
+    // SEARCH SONGS WHILE TYPING
     searchInput.addEventListener("input", () => {
-        const searchValue = searchInput.value.toLowerCase().trim();
+        const searchValue = searchInput.value.trim();
+
         clearTimeout(searchTimeout);
-        if (searchValue.length > 0) {
-            searchTimeout = setTimeout(() => {
-                fetchSongsFromServer(searchValue, true);
-            }, 400);
-        } else {
-            const dropdown = document.getElementById("searchResultsDropdown");
-            if(dropdown) dropdown.style.display = "none";
+
+        if (searchValue.length === 0) {
+            renderSearchHistory();
+            return;
+        }
+
+        searchTimeout = setTimeout(() => {
+            fetchSongsFromServer(searchValue, true);
+        }, 400);
+    });
+    searchInput.addEventListener("focus", () => {
+        if (!searchInput.value.trim()) {
+            renderSearchHistory();
         }
     });
-    
+
+    searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+            const query = searchInput.value.trim();
+
+            if (query) {
+                addSearchHistory(query);
+                searchDropdown.style.display = "none";
+            }
+        }
+    });
+
     // Hide dropdown when clicking outside
     document.addEventListener("click", (e) => {
-        if(!e.target.closest(".search-wrapper")) {
+        if (!e.target.closest(".search-wrapper")) {
             const dropdown = document.getElementById("searchResultsDropdown");
-            if(dropdown) dropdown.style.display = "none";
+            if (dropdown) dropdown.style.display = "none";
         }
     });
 }
