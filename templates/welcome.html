@@ -433,6 +433,87 @@
         </div>
     </main>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('welcomeOverlay');
+    const cinematicText = document.getElementById('cinematicText');
+
+    if (overlay && cinematicText) {
+        // Trigger KGF Animation immediately
+        cinematicText.classList.add('kgf-animate');
+
+        let kgfAudio = null;
+
+        // Play Voice and BGM immediately
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance("Welcome to Prem Project.");
+            utterance.lang = 'en-IN';
+
+            function setVoice() {
+                const voices = window.speechSynthesis.getVoices();
+
+                let voice = voices.find(v => v.lang === 'hi-IN' && v.name.toLowerCase().includes('female'));
+                if (!voice) voice = voices.find(v => v.lang === 'en-IN' && v.name.toLowerCase().includes('female'));
+                if (!voice) voice = voices.find(v => v.lang.includes('IN') && (v.name.includes('Google') || v.name.includes('Veena')));
+
+                if (voice) utterance.voice = voice;
+                utterance.pitch = 0.9;
+                utterance.rate = 0.9;
+                utterance.volume = 1.0;
+
+                window.speechSynthesis.speak(utterance);
+
+                try {
+                    kgfAudio = new Audio("https://archive.org/download/kgfmonsterbgmringtone/Kgf%20Monster%20Bgm%20Ringtone.mp3");
+                    kgfAudio.volume = 0.6;
+                    kgfAudio.play().catch(e => console.log("Audio play blocked by browser", e));
+                } catch (e) { }
+            }
+
+            if (window.speechSynthesis.getVoices().length > 0) {
+                setVoice();
+            } else {
+                window.speechSynthesis.onvoiceschanged = setVoice;
+            }
+        }
+
+        // Remove Intro Overlay after 3.5 seconds
+        setTimeout(() => {
+            overlay.style.transition = 'opacity 1s ease, filter 1s ease, transform 1s ease';
+            overlay.style.opacity = '0';
+            overlay.style.filter = 'blur(20px)';
+            overlay.style.transform = 'scale(1.2)';
+
+            if (kgfAudio) {
+                let vol = 0.6;
+                const fadeOut = setInterval(() => {
+                    if (vol > 0.05) {
+                        vol -= 0.05;
+                        kgfAudio.volume = vol;
+                    } else {
+                        clearInterval(fadeOut);
+                        kgfAudio.pause();
+                    }
+                }, 100);
+            }
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000);
+        }, 3500);
+
+        // Failsafe resume
+        document.body.addEventListener('click', () => {
+            if ('speechSynthesis' in window) window.speechSynthesis.resume();
+            if (kgfAudio && kgfAudio.paused && overlay.style.display !== 'none') kgfAudio.play();
+        }, { once: true });
+    }
+});
+    
+
+
+</script>
 </body>
 
 </html>
