@@ -3777,12 +3777,7 @@ button {
         overflow-wrap: anywhere;
     }
 
-    .music-player {
-        width: calc(100% - 16px);
-        max-width: calc(100% - 16px);
-        left: 8px;
-        right: 8px;
-    }
+    
 
     img {
         max-width: 100%;
@@ -3805,12 +3800,7 @@ button {
         gap: 14px 10px;
     }
 
-    .music-player {
-        width: calc(100% - 12px);
-        max-width: calc(100% - 12px);
-        left: 6px;
-        right: 6px;
-    }
+    
 }
 
 /* =================================
@@ -3905,4 +3895,5 @@ button {
 
     
 }
+
 
