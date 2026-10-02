@@ -17,7 +17,7 @@ function decryptJioSaavnUrl(encUrl) {
             padding: CryptoJS.pad.Pkcs7
         });
         let result = decrypted.toString(CryptoJS.enc.Utf8);
-        return result.replace("_96.mp4", "_320.mp4").replace("_96.mp3", "_320.mp3").replace("_160.mp4", "_320.mp4");
+        return result.replace("http://", "https://").replace("_96.mp4", "_320.mp4").replace("_96.mp3", "_320.mp3").replace("_160.mp4", "_320.mp4");
     } catch (e) { return ""; }
 }
 
@@ -1569,3 +1569,4 @@ loadTrack = function (index) {
 };
 
 // WELCOME OVERLAY & TEXT-TO-SPEECH
+
