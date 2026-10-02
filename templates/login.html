@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BEATNOVA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #080811;
+            color: white;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: #7c3aed;
+            filter: blur(160px);
+            opacity: 0.25;
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow2 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: #ec4899;
+            filter: blur(160px);
+            opacity: 0.15;
+            bottom: -100px;
+            right: -80px;
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 430px;
+            padding: 45px 38px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            background: rgba(255,255,255,0.045);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+            animation: appear 0.8s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #a855f7;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9999ad;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 14px;
+            color: #d1d1df;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168,85,247,0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #77778a;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #9333ea, #6d28d9);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(147,51,234,0.4);
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #9999ad;
+            font-size: 14px;
+        }
+
+        .signup-text a {
+            color: #c084fc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #77778a;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 35px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow"></div>
+    <div class="glow2"></div>
+
+    <div class="login-card">
+
+        <div class="logo">BEAT<span>NOVA</span></div>
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to continue your music journey.</p>
+
+        <form action="/login" method="POST">
+
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login to BEATNOVA
+            </button>
+
+        </form>
+
+        <p class="signup-text">
+            Don't have an account?
+            <a href="/signup">Sign up</a>
+        </p>
+
+        <a href="/" class="back-link">← Back to Home</a>
+
+    </div>
+    <dialog id="deletePlaylistModal" class="delete-playlist-modal">
+
+    <div class="delete-modal-icon">
+        🗑
+    </div>
+
+    <h2>Delete Playlist?</h2>
+
+    <p id="deletePlaylistMessage">
+        Are you sure you want to delete this playlist?
+    </p>
+
+    <div class="delete-modal-actions">
+
+        <button
+            type="button"
+            id="cancelDeletePlaylist"
+            class="delete-cancel-btn"
+        >
+            Cancel
+        </button>
+
+        <button
+            type="button"
+            id="confirmDeletePlaylist"
+            class="delete-confirm-btn"
+        >
+            Delete
+        </button>
+
+    </div>
+
+</dialog>
+
+</body>
+</html>

@@ -1,0 +1,517 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BEATNOVA — Your Sound. Your Universe.</title>
+<meta content="Discover a new dimension of music with BEATNOVA." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+    #searchResultsDropdown::-webkit-scrollbar { width: 6px; }
+    #searchResultsDropdown::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+    .search-result-item:hover { background: rgba(255, 255, 255, 0.1); }
+</style>
+
+    
+</head>
+<body>
+<!-- CINEMATIC WELCOME OVERLAY (KGF STYLE) -->
+<style>
+        @keyframes kgfZoom {
+            0% {
+                opacity: 0;
+                transform: scale(1.5);
+                letter-spacing: 20px;
+            }
+
+            30% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                letter-spacing: 10px;
+            }
+        }
+
+        .kgf-animate {
+            animation: kgfZoom 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+        }
+    </style>
+<div id="welcomeOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:9999999; display:flex; justify-content:center; align-items:center; flex-direction:column; overflow:hidden;">
+<div id="cinematicText" style="opacity:0; transform:scale(1.5); text-align:center;">
+<h1 style="color:#d4af37; font-size:4rem; font-weight:900; text-transform:uppercase; letter-spacing:10px; margin:0; text-shadow: 0 0 20px rgba(212,175,55,0.6), 0 0 40px rgba(212,175,55,0.4); font-family: 'Impact', sans-serif;">
+                Prem Sagar</h1>
+<p style="color:#fff; font-size:1.5rem; letter-spacing:5px; margin-top:10px; text-transform:uppercase; opacity:0.8;">
+                Welcome to Prem Project</p>
+</div>
+</div>
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+<!-- NAVBAR -->
+<header class="navbar">
+<a class="brand" href="/">
+<span class="brand-icon">♫</span>
+<span>BEAT<span class="brand-light">NOVA</span></span>
+</a>
+<nav class="nav-links">
+<a class="active" href="#home">Home</a>
+<a href="#discover">Discover</a>
+<a href="#recently-played">Recently Played</a>
+<a href="#playlists">My Playlists</a>
+<a href="#trending">Trending</a>
+<a href="#premium">Premium</a>
+</nav>
+<div class="nav-actions">
+<div class="search-wrapper" style="position: relative;">
+<span class="search-icon">🔍</span>
+<input autocomplete="off" class="search-input" id="searchInput" placeholder="Search music..." type="text"/>
+<div id="searchResultsDropdown" style="display: none; position: absolute; top: 110%; left: 0; width: 100%; min-width: 250px; max-height: 350px; overflow-y: auto; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border: 1px solid #333; border-radius: 12px; z-index: 999999; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+<!-- Search results will appear here -->
+</div>
+</div>
+<button class="login-button">Log in</button>
+<button class="signup-button">Get Started <span>→</span></button>
+</div>
+</header>
+<main>
+<!-- TRENDING SECTION -->
+<section class="content-section" id="trending">
+<div class="section-heading">
+<div>
+<span class="section-kicker">THE SOUND OF NOW</span>
+<h2>Trending <span class="gradient-text">on Beatnova.</span></h2>
+<p>Tracks making waves across the universe.</p>
+</div>
+<a class="view-all" href="#trending">View charts <span>↗</span></a>
+</div>
+<div class="track-grid">
+<article class="track-card">
+<div class="track-cover cover-one">
+<span class="cover-shape">◉</span>
+<button aria-label="Play" class="cover-play">▶</button>
+<button aria-label="Add to favorites" class="favorite-btn">
+                            ♡
+                        </button>
+</div>
+<div class="track-details">
+<div>
+<h3>Midnight Echoes</h3>
+<p>Nova Collective</p>
+</div>
+<span class="track-duration">3:42</span>
+</div>
+</article>
+<article class="track-card">
+<div class="track-cover cover-two">
+<span class="cover-shape">✦</span>
+<button aria-label="Play" class="cover-play">▶</button>
+<button aria-label="Add to favorites" class="favorite-btn">
+                            ♡
+                        </button>
+</div>
+<div class="track-details">
+<div>
+<h3>Neon Dreams</h3>
+<p>Aria Sol</p>
+</div>
+<span class="track-duration">4:12</span>
+</div>
+</article>
+<article class="track-card">
+<div class="track-cover cover-three">
+<span class="cover-shape">∞</span>
+<button aria-label="Play" class="cover-play">▶</button>
+<button aria-label="Add to favorites" class="favorite-btn">
+                            ♡
+                        </button>
+</div>
+<div class="track-details">
+<div>
+<h3>Lost in Motion</h3>
+<p>Echo District</p>
+</div>
+<span class="track-duration">3:28</span>
+</div>
+</article>
+<article class="track-card">
+<div class="track-cover cover-four">
+<span class="cover-shape">☼</span>
+<button aria-label="Play" class="cover-play">▶</button>
+<button aria-label="Add to favorites" class="favorite-btn">
+                            ♡
+                        </button>
+</div>
+<div class="track-details">
+<div>
+<h3>Golden Hour</h3>
+<p>Solstice</p>
+</div>
+<span class="track-duration">3:56</span>
+</div>
+</article>
+</div>
+</section>
+<!-- HERO SECTION -->
+
+<!-- DISCOVERY SECTION -->
+<section class="content-section" id="discover">
+<div class="section-heading">
+<div>
+<span class="section-kicker">CURATED FOR YOU</span>
+<h2>Find your <span class="gradient-text">frequency.</span></h2>
+<p>Every mood deserves its own soundtrack.</p>
+</div>
+<a class="view-all" href="#trending">Explore all <span>↗</span></a>
+</div>
+<div class="mood-grid">
+<a class="mood-card mood-purple" href="#trending">
+<span class="mood-number">01</span>
+<div class="mood-art">☾</div>
+<div class="mood-info">
+<h3>Late Night</h3>
+<p>Sounds for the after hours.</p>
+</div>
+<span class="mood-arrow">↗</span>
+</a>
+<a class="mood-card mood-blue" href="#trending">
+<span class="mood-number">02</span>
+<div class="mood-art">〰</div>
+<div class="mood-info">
+<h3>Deep Focus</h3>
+<p>Find your flow state.</p>
+</div>
+<span class="mood-arrow">↗</span>
+</a>
+<a class="mood-card mood-orange" href="#trending">
+<span class="mood-number">03</span>
+<div class="mood-art">✳</div>
+<div class="mood-info">
+<h3>Good Energy</h3>
+<p>Turn up your day.</p>
+</div>
+<span class="mood-arrow">↗</span>
+</a>
+<a class="mood-card mood-green" href="#trending">
+<span class="mood-number">04</span>
+<div class="mood-art">✧</div>
+<div class="mood-info">
+<h3>Slow Living</h3>
+<p>Take a breath. Feel more.</p>
+</div>
+<span class="mood-arrow">↗</span>
+</a>
+</div>
+</section>
+<!-- FAVORITES SECTION -->
+<section class="content-section favorites-section" id="favorites">
+<div class="section-heading">
+<div>
+<span class="section-label">YOUR COLLECTION</span>
+<h2>Your Favorites <span>♥</span></h2>
+<p>All the tracks you love, in one place.</p>
+</div>
+</div>
+<div class="track-grid" id="favoritesGrid">
+<!-- Favorite songs will appear here -->
+</div>
+<p class="empty-favorites" id="emptyFavorites">
+                You haven't liked any songs yet. Start exploring!
+            </p>
+</section>
+<!-- RECENTLY PLAYED SECTION -->
+<section class="content-section recently-played-section" id="recently-played">
+<div class="section-heading">
+<div>
+<span class="section-label">YOUR LISTENING HISTORY</span>
+<h2>Recently Played <span>♫</span></h2>
+<p>Pick up where your music journey left off.</p>
+</div>
+<button class="clear-history-btn" id="clearHistoryBtn">
+                    Clear History
+                </button>
+</div>
+<div class="track-grid" id="recentlyPlayedGrid">
+<!-- Recently played songs will appear here -->
+</div>
+<p class="empty-recently-played" id="emptyRecentlyPlayed">
+                No songs played yet. Start listening!
+            </p>
+</section>
+<!-- CUSTOM PLAYLISTS SECTION -->
+<section class="content-section playlists-section" id="playlists">
+<div class="section-heading">
+<div>
+<span class="section-label">YOUR PERSONAL COLLECTION</span>
+<h2>My Playlists <span>♫</span></h2>
+<p>Create and organize your music your way.</p>
+</div>
+</div>
+<div class="playlist-create-box">
+<input id="playlistNameInput" maxlength="30" placeholder="Enter playlist name..." type="text"/>
+<button id="createPlaylistBtn">
+                    + Create Playlist
+                </button>
+</div>
+<div class="playlist-grid" id="playlistGrid">
+<!-- Playlists will appear here -->
+</div>
+<p class="empty-playlists" id="emptyPlaylists">
+                You haven't created any playlists yet.
+            </p>
+</section>
+<!-- SPONSORED SECTION -->
+<section class="sponsored-section">
+<div class="sponsored-content">
+<span class="sponsored-label">✦ SPONSORED EXPERIENCE</span>
+<h2>Sound meets<br/><span>innovation.</span></h2>
+<p>
+                    Discover the next generation of audio.
+                    A curated experience for those who live and breathe sound.
+                </p>
+<a class="sponsored-button" href="#premium">
+                    Discover the experience <span>↗</span>
+</a>
+</div>
+<div class="sponsored-art">
+<div class="sponsor-circle circle-one"></div>
+<div class="sponsor-circle circle-two"></div>
+<div class="sponsor-device">
+<div class="device-inner"></div>
+</div>
+<span class="sponsor-orbit-text">THE FUTURE SOUNDS DIFFERENT</span>
+</div>
+</section>
+<!-- PREMIUM SECTION -->
+<section class="hero" id="home">
+<div class="hero-content">
+<div class="eyebrow">
+<span class="live-dot"></span>
+                    THE NEXT ERA OF SOUND
+                </div>
+<h1>
+                    Music that<br/>
+                    moves your<br/>
+<span class="gradient-text">universe.</span>
+</h1>
+<p class="hero-description">
+                    Discover sounds beyond boundaries. Explore new artists,
+                    find your rhythm, and experience music in a whole new dimension.
+                </p>
+<div class="hero-buttons">
+<a class="primary-button" href="#discover">
+                        Explore Music
+                        <span>↗</span>
+</a>
+<a class="secondary-button" href="#trending">
+<span class="play-symbol">▶</span>
+                        Discover Trending
+                    </a>
+</div>
+<div class="hero-stats">
+<div class="stat">
+<strong>10M<span>+</span></strong>
+<small>Music lovers</small>
+</div>
+<div class="stat-divider"></div>
+<div class="stat">
+<strong>500K<span>+</span></strong>
+<small>Tracks</small>
+</div>
+<div class="stat-divider"></div>
+<div class="stat">
+<strong>120<span>+</span></strong>
+<small>Countries</small>
+</div>
+</div>
+</div>
+<!-- HERO VISUAL -->
+<div class="hero-visual">
+<div class="visual-glow"></div>
+<div class="orbit orbit-one"></div>
+<div class="orbit orbit-two"></div>
+<div class="floating-tag tag-top">
+<span class="tag-icon">✦</span>
+<div>
+<strong>New sound</strong>
+<small>Just for you</small>
+</div>
+</div>
+<div class="album-art">
+<div class="album-art-inner">
+<div class="art-sun"></div>
+<div class="art-ring ring-one"></div>
+<div class="art-ring ring-two"></div>
+<div class="art-mountain mountain-one"></div>
+<div class="art-mountain mountain-two"></div>
+<div class="art-caption">
+<span>BEATNOVA ORIGINALS</span>
+<strong>AFTER<br/>HOURS</strong>
+<small>VOL. 001</small>
+</div>
+</div>
+</div>
+<div class="floating-tag tag-bottom">
+<span class="equalizer">
+<i></i><i></i><i></i><i></i><i></i>
+</span>
+<div>
+<strong>Now playing</strong>
+<small>After Hours — Nova</small>
+</div>
+</div>
+<div class="visual-note">FEEL THE FREQUENCY.</div>
+</div>
+</section><section class="premium-section" id="premium">
+<span class="section-kicker">ELEVATE YOUR EXPERIENCE</span>
+<h2>More music.<br/><span class="gradient-text">Zero limits.</span></h2>
+<p>
+                Unlock your universe with uninterrupted listening,
+                high-quality audio and experiences made for you.
+            </p>
+<a class="primary-button" href="#premium">
+                Explore Premium <span>→</span>
+</a>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="footer">
+<a class="brand" href="/">
+<span class="brand-icon">♫</span>
+<span>BEAT<span class="brand-light">NOVA</span></span>
+</a>
+<p>© 2026 BEATNOVA. A new dimension of music.</p>
+<div class="footer-links">
+<a href="#home">About</a>
+<a href="#premium">Privacy</a>
+<a href="#premium">Contact</a>
+</div>
+</footer>
+<!-- MUSIC PLAYER PREVIEW -->
+<div class="music-player">
+<div class="player-track">
+<div class="mini-cover">✦</div>
+<div>
+<strong>Midnight Echoes</strong>
+<small>Nova Collective</small>
+</div>
+<button aria-label="Like" class="like-button">♡</button>
+</div>
+<div class="player-controls">
+<div class="control-buttons">
+<button aria-label="Shuffle">⤨</button>
+<button aria-label="Previous">◂</button>
+<button aria-label="Play" class="main-play">▶</button>
+<button aria-label="Next">▸</button>
+<button aria-label="Repeat">⟳</button>
+</div>
+<div class="progress-container">
+<span>1:24</span>
+<div class="progress-track">
+<div class="progress-fill"></div>
+</div>
+<span>3:42</span>
+</div>
+</div>
+<div class="player-volume">
+<span>♫</span>
+<div class="volume-track">
+<div class="volume-fill"></div>
+</div>
+<button aria-label="Open full screen player" class="fullscreen-btn" id="fullscreenBtn">
+                ⛶
+            </button>
+</div>
+</div>
+<!-- MUSIC SELECTION MODAL -->
+<div class="music-modal" id="musicModal">
+<div class="music-modal-content">
+<div class="music-modal-header">
+<div>
+<span class="section-label">YOUR MUSIC</span>
+<h2>Add Songs to Playlist</h2>
+</div>
+<button class="close-modal" id="closeMusicModal">
+                    ×
+                </button>
+</div>
+<div class="music-modal-list" id="musicModalList">
+<!-- Songs will appear here -->
+</div>
+</div>
+</div>
+<!-- FULL SCREEN MUSIC PLAYER -->
+<div class="fullscreen-player" id="fullscreenPlayer">
+<div class="fullscreen-header">
+<button aria-label="Close player" class="fullscreen-close" id="closeFullscreen">
+                ↓
+            </button>
+<span>NOW PLAYING</span>
+<button aria-label="More options" class="fullscreen-more">
+                ⋮
+            </button>
+</div>
+<div class="fullscreen-content">
+<div class="fullscreen-artwork" id="fullscreenArtwork">
+<div class="artwork-symbol">✦</div>
+</div>
+<div class="fullscreen-song-info">
+<div>
+<h1 id="fullscreenTitle">Midnight Echoes</h1>
+<p id="fullscreenArtist">Nova Collective</p>
+</div>
+<button aria-label="Like song" class="fullscreen-like" id="fullscreenLike">
+                    ♡
+                </button>
+</div>
+<div class="fullscreen-progress">
+<div class="fullscreen-progress-track" id="fullscreenProgressTrack">
+<div class="fullscreen-progress-fill" id="fullscreenProgressFill"></div>
+</div>
+<div class="fullscreen-time">
+<span id="fullscreenCurrentTime">0:00</span>
+<span id="fullscreenDuration">0:00</span>
+</div>
+</div>
+<div class="fullscreen-controls">
+<button aria-label="Shuffle" id="fullscreenShuffle">⤨</button>
+<button aria-label="Previous song" id="fullscreenPrevious">◂</button>
+<button aria-label="Play" class="fullscreen-main-play" id="fullscreenPlay">
+                    ▶
+                </button>
+<button aria-label="Next song" id="fullscreenNext">▸</button>
+<button aria-label="Repeat" id="fullscreenRepeat">⟳</button>
+</div>
+<div class="fullscreen-volume">
+<span>🔈</span>
+<input id="fullscreenVolume" max="1" min="0" step="0.01" type="range" value="1"/>
+<span>🔊</span>
+</div>
+</div>
+</div>
+<dialog class="delete-playlist-modal" id="deletePlaylistModal">
+<div class="delete-modal-icon">
+            🗑
+        </div>
+<h2>Delete Playlist?</h2>
+<p id="deletePlaylistMessage">
+            Are you sure you want to delete this playlist?
+        </p>
+<div class="delete-modal-actions">
+<button class="delete-cancel-btn" id="cancelDeletePlaylist" type="button">
+                Cancel
+            </button>
+<button class="delete-confirm-btn" id="confirmDeletePlaylist" type="button">
+                Delete
+            </button>
+</div>
+</dialog>
+<script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
+</body>
+</html>
