@@ -114,6 +114,7 @@ async function fetchSongsFromServer(searchQuery = "bollywood", showSearchResults
                         '<div class="track-cover" ' + bgStyle + '>' +
                         '<button class="cover-play dynamic-play" data-index="' + i + '" aria-label="Play">▶</button>' +
                         '<button class="favorite-btn" aria-label="Add to favorites">♡</button>' +
+                        '<button class="add-queue-btn" aria-label="Add to queue">+</button>' +
                         '</div>' +
                         '<div class="track-details">' +
                         '<div>' +
@@ -132,6 +133,29 @@ async function fetchSongsFromServer(searchQuery = "bollywood", showSearchResults
                         loadTrack(idx);
                         playTrack();
                     });
+                });
+
+                document.querySelectorAll(".add-queue-btn").forEach((button, index) => {
+
+                    button.addEventListener("click", (event) => {
+
+                        event.stopPropagation();
+
+                        const track = tracks[index];
+
+                        if (!track) {
+                            return;
+                        }
+
+                        addToQueue(track);
+
+                        button.textContent = "✓";
+
+                        setTimeout(() => {
+                            button.textContent = "+";
+                        }, 1000);
+                    });
+
                 });
 
                 const dynamicFavBtns = trendingGrid.querySelectorAll(".favorite-btn");
@@ -456,14 +480,49 @@ repeatButton.addEventListener("click", () => {
 });
 
 
-// AUTOMATIC NEXT TRACK
+// AUTOMATIC NEXT TRACK + SMART QUEUE
 
 audio.addEventListener("ended", () => {
-    if (!isRepeat) {
-        nextTrack();
-    }
-});
 
+    if (isRepeat) {
+        return;
+    }
+
+    if (musicQueue.length > 0) {
+
+        const nextQueuedTrack = musicQueue.shift();
+
+        renderQueue();
+
+        const queueIndex = tracks.findIndex(
+            track => track.src === nextQueuedTrack.src
+        );
+
+        if (queueIndex !== -1) {
+
+            loadTrack(queueIndex);
+            playTrack();
+
+        } else {
+
+            audio.src = nextQueuedTrack.src;
+
+            document.querySelector(".player-track strong").textContent =
+                nextQueuedTrack.title;
+
+            document.querySelector(".player-track small").textContent =
+                nextQueuedTrack.artist;
+
+            audio.play();
+
+        }
+
+        return;
+    }
+
+    nextTrack();
+
+});
 
 // LIKE BUTTON
 
@@ -720,7 +779,7 @@ function addSearchHistory(query) {
 
 if (searchInput) {
     let searchTimeout;
-    
+
     // SEARCH SONGS WHILE TYPING
     searchInput.addEventListener("input", () => {
         const searchValue = searchInput.value.trim();
@@ -1751,4 +1810,86 @@ loadTrack = function (index) {
 };
 
 // WELCOME OVERLAY & TEXT-TO-SPEECH
+/* =================================
+   BEATNOVA SMART QUEUE
+================================= */
+
+let musicQueue = [];
+
+const queuePanel = document.getElementById("queuePanel");
+const queueBtn = document.getElementById("queueBtn");
+const queueCloseBtn = document.getElementById("queueCloseBtn");
+const queueList = document.getElementById("queueList");
+
+queueBtn.addEventListener("click", () => {
+    queuePanel.classList.add("active");
+});
+
+queueCloseBtn.addEventListener("click", () => {
+    queuePanel.classList.remove("active");
+});
+
+function addToQueue(track) {
+
+    musicQueue.push(track);
+
+    renderQueue();
+}
+
+function renderQueue() {
+
+    if (musicQueue.length === 0) {
+
+        queueList.innerHTML = `
+            <div class="queue-empty">
+                <span>♫</span>
+                <p>Your queue is empty</p>
+                <small>Add songs to play them next</small>
+            </div>
+        `;
+
+        return;
+    }
+
+    queueList.innerHTML = "";
+
+    musicQueue.forEach((track, index) => {
+
+        const queueItem = document.createElement("div");
+
+        queueItem.className = "queue-item";
+
+        queueItem.innerHTML = `
+            <div class="queue-item-cover">
+                ${track.cover ? `<img src="${track.cover}" alt="">` : "♫"}
+            </div>
+
+            <div class="queue-item-info">
+                <strong>${track.title}</strong>
+                <small>${track.artist}</small>
+            </div>
+
+            <button
+                class="queue-remove"
+                data-index="${index}">
+                ✕
+            </button>
+        `;
+
+        queueList.appendChild(queueItem);
+    });
+
+    document.querySelectorAll(".queue-remove").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const index = Number(button.dataset.index);
+
+            musicQueue.splice(index, 1);
+
+            renderQueue();
+        });
+
+    });
+}
 

@@ -67,6 +67,7 @@
             <button class="signup-button" onclick="window.location.href='/signup'">
                 Get Started <span>→</span>
             </button>
+        </div>
     </header>
     <main>
         <!-- TRENDING SECTION -->
@@ -382,6 +383,43 @@
             <a href="#premium">Contact</a>
         </div>
     </footer>
+    <!-- SMART QUEUE -->
+    <section class="queue-panel" id="queuePanel">
+
+        <div class="queue-header">
+            <div>
+                <span class="queue-label">UP NEXT</span>
+                <h2>Queue</h2>
+            </div>
+
+            <button class="queue-close" id="queueCloseBtn">✕</button>
+        </div>
+
+        <div class="queue-now-playing">
+            <div class="queue-now-cover" id="queueNowCover">
+                ✦
+            </div>
+
+            <div class="queue-now-info">
+                <span>NOW PLAYING</span>
+                <strong id="queueNowTitle">Midnight Echoes</strong>
+                <small id="queueNowArtist">Nova Collective</small>
+            </div>
+        </div>
+
+        <div class="queue-divider"></div>
+
+        <div class="queue-list" id="queueList">
+
+            <div class="queue-empty" id="queueEmpty">
+                <span>♫</span>
+                <p>Your queue is empty</p>
+                <small>Add songs to play them next</small>
+            </div>
+
+        </div>
+
+    </section>
     <!-- MUSIC PLAYER PREVIEW -->
     <div class="music-player">
         <div class="player-track">
@@ -413,6 +451,9 @@
             <div class="volume-track">
                 <div class="volume-fill"></div>
             </div>
+            <button class="queue-btn" id="queueBtn" aria-label="Open queue">
+                ☷
+            </button>
             <button aria-label="Open full screen player" class="fullscreen-btn" id="fullscreenBtn">
                 ⛶
             </button>
