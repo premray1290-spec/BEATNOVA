@@ -3812,3 +3812,108 @@ button {
         right: 6px;
     }
 }
+
+/* =================================
+   BEATNOVA MOBILE WIDTH FIX
+================================= */
+
+@media screen and (max-width: 768px) {
+
+    html,
+    body {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        position: relative;
+    }
+
+    .navbar,
+    header.navbar,
+    main,
+    .content-section,
+    .hero,
+    .sponsored-section,
+    .premium-section,
+    .footer {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .navbar {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .content-section {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .track-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px 12px !important;
+        width: 100% !important;
+    }
+
+    .track-card {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .track-cover {
+        width: 100% !important;
+        aspect-ratio: 1 / 1;
+        height: auto !important;
+    }
+
+    .track-details {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .track-details h3,
+    .track-details p {
+        overflow-wrap: anywhere;
+    }
+
+    .music-player {
+        position: fixed !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+        width: calc(100% - 16px) !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+    }
+
+    img,
+    video {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .content-section {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .track-grid {
+        gap: 12px 10px !important;
+    }
+
+    .music-player {
+        left: 6px !important;
+        right: 6px !important;
+        bottom: 6px !important;
+    }
+}
