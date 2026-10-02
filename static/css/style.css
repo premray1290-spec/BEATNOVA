@@ -3705,3 +3705,110 @@ button {
     }
 
 }
+
+
+/* =================================
+   BEATNOVA MOBILE SCREEN FIX
+================================= */
+
+@media screen and (max-width: 768px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    .navbar,
+    header,
+    main,
+    .main-content,
+    .content-section,
+    .footer {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .navbar {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .content-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .track-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
+        width: 100%;
+    }
+
+    .track-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .track-cover {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .track-details {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .track-details h3,
+    .track-details p {
+        overflow-wrap: anywhere;
+    }
+
+    .music-player {
+        width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        left: 8px;
+        right: 8px;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .navbar {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .content-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .track-grid {
+        gap: 14px 10px;
+    }
+
+    .music-player {
+        width: calc(100% - 12px);
+        max-width: calc(100% - 12px);
+        left: 6px;
+        right: 6px;
+    }
+}
