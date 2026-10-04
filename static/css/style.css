@@ -4510,7 +4510,7 @@ button {
     }
 
     .trending-artists-layout .track-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 15px;
     }
 
@@ -4590,6 +4590,7 @@ button {
         display: none;
     }
 }
+
 
 
 
