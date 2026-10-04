@@ -1861,7 +1861,7 @@ function renderQueue() {
 
         queueItem.innerHTML = `
             <div class="queue-item-cover">
-                ${track.cover ? `<img src="${track.cover}" alt="">` : "♫"}
+                ${track.image ? `<img src="${track.image}" alt="">` : "♫"}
             </div>
 
             <div class="queue-item-info">
