@@ -4478,20 +4478,14 @@ button {
 }
 
 .trending-artists-layout {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
     gap: 40px;
     align-items: start;
 }
 
-.trending-artists-layout > #trending {
-    flex: 1.35;
-    order: 1;
-    min-width: 0;
-}
-
+.trending-artists-layout > #trending,
 .trending-artists-layout > #artists {
-    flex: 0.65;
-    order: 2;
     min-width: 0;
 }
 
@@ -4511,32 +4505,21 @@ button {
 
 @media (max-width: 768px) {
     .trending-artists-layout {
-        display: block;
-    }
-
-    .trending-artists-layout > #artists {
-        float: right;
-        width: 50%;
-        padding-left: 7.5px;
-        margin-bottom: 15px;
-    }
-
-    .trending-artists-layout > #trending {
-        display: block;
-        width: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 30px;
     }
 
     .trending-artists-layout .track-grid {
-        display: block !important;
+        grid-template-columns: 1fr !important;
+        gap: 15px;
     }
 
     .trending-artists-layout .track-card {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 15px;
         width: 100% !important;
-        overflow: hidden;
     }
 
     .trending-artists-layout .track-cover {
@@ -4576,45 +4559,56 @@ button {
     }
 
     .trending-artists-layout .artists-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        padding-bottom: 10px;
+        scroll-snap-type: x mandatory;
     }
 
     .trending-artists-layout .artist-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-areas: 
-            "image name"
-            "image role";
-        padding: 10px;
-        gap: 2px 12px;
-        text-align: left;
+        display: flex !important;
+        flex-direction: column;
         align-items: center;
+        text-align: center;
+        width: 100px;
+        flex-shrink: 0;
+        background: transparent !important;
+        border: none !important;
+        padding: 0;
+        box-shadow: none;
+        scroll-snap-align: start;
     }
 
     .trending-artists-layout .artist-card h3 {
-        grid-area: name;
-        margin: 0;
-        align-self: flex-end;
+        font-size: 13px;
+        margin-top: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        grid-area: unset;
+        align-self: unset;
+        text-align: center;
     }
 
     .trending-artists-layout .artist-card p {
-        grid-area: role;
-        margin: 0;
-        align-self: flex-start;
+        display: none;
     }
 
     .trending-artists-layout .artist-image-wrapper {
-        grid-area: image;
-        width: 55px;
-        height: 55px;
-        margin-bottom: 0;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        grid-area: unset;
     }
 
     .trending-artists-layout .artist-play-button {
         display: none;
     }
 }
+
+
 
 
 
