@@ -109,31 +109,44 @@ async function fetchSongsFromServer(searchQuery = "bollywood", showSearchResults
 
                 tracks.forEach((track, i) => {
                     const bgStyle = track.image ? 'style="background-image: url(\'' + track.image + '\'); background-size: cover; background-position: center;"' : "";
-                    const cardHTML =
-                        '<article class="track-card">' +
-                        '<div class="track-cover" ' + bgStyle + '>' +
-                        '<button class="cover-play dynamic-play" data-index="' + i + '" aria-label="Play">▶</button>' +
-                        '<button class="favorite-btn" aria-label="Add to favorites">♡</button>' +
-                        '<button class="add-queue-btn" aria-label="Add to queue">+</button>' +
-                        '</div>' +
-                        '<div class="track-details">' +
-                        '<div>' +
-                        '<h3>' + track.title + '</h3>' +
-                        '<p>' + track.artist + '</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '</article>';
-                    trendingGrid.insertAdjacentHTML("beforeend", cardHTML);
-                });
+                    const cardHTML = `<article class="track-card dynamic-card" data-index="${i}" style="cursor: pointer;">` +
+                          `<div class="track-cover" ${bgStyle}>` +
+                          `<button class="cover-play dynamic-play" aria-label="Play">▶</button>` +
+                          `<button class="favorite-btn" aria-label="Add to favorites">♡</button>` +
+                          `<button class="add-queue-btn" aria-label="Add to queue">+</button>` +
+                          `</div>` +
+                          `<div class="track-details">` +
+                          `<div>` +
+                          `<h3>${track.title}</h3>` +
+                          `<p>${track.artist}</p>` +
+                          `</div>` +
+                          `</div>` +
+                          `</article>`;
+                      trendingGrid.insertAdjacentHTML("beforeend", cardHTML);
+                  });
 
-                const dynamicPlayButtons = trendingGrid.querySelectorAll(".dynamic-play");
-                dynamicPlayButtons.forEach(button => {
-                    button.addEventListener("click", (e) => {
-                        const idx = parseInt(e.target.getAttribute("data-index"));
-                        loadTrack(idx);
-                        playTrack();
-                    });
-                });
+                  const dynamicCards = trendingGrid.querySelectorAll(".dynamic-card");
+                  dynamicCards.forEach(card => {
+                      card.addEventListener("click", async (e) => {
+                          const idx = parseInt(card.getAttribute("data-index"));
+                          // Check if queue or favorite was clicked, if we want to handle them differently later
+                          if (e.target.closest(".add-queue-btn")) {
+                              e.stopPropagation();
+                              musicQueue.push(tracks[idx]);
+                              renderQueue();
+                              return;
+                          }
+                          if (e.target.closest(".favorite-btn")) {
+                              e.stopPropagation();
+                              return;
+                          }
+
+                          // Start audio context on mobile
+                          audio.play().catch(() => {});
+                          loadTrack(idx);
+                          await playTrack();
+                      });
+                  });
 
                 document.querySelectorAll(".add-queue-btn").forEach((button, index) => {
 

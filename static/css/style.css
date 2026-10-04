@@ -4527,6 +4527,12 @@ button {
         flex-shrink: 0;
     }
 
+    .trending-artists-layout .cover-play,
+    .trending-artists-layout .favorite-btn,
+    .trending-artists-layout .add-queue-btn {
+        display: none !important;
+    }
+
     .trending-artists-layout .cover-shape {
         font-size: 24px;
     }
@@ -4590,6 +4596,7 @@ button {
         display: none;
     }
 }
+
 
 
 
