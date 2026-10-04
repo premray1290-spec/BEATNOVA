@@ -4615,3 +4615,112 @@ button {
 
 
 
+
+
+/* =========================================
+   ADVANCED PLAYER BAR RE-DESIGN (AI UPDATE)
+========================================= */
+
+/* Desktop Modern Glassmorphism Player */
+.music-player {
+    bottom: 24px !important;
+    width: min(920px, 92%) !important;
+    min-height: 80px !important;
+    padding: 12px 24px !important;
+    border-radius: 24px !important;
+    background: rgba(20, 18, 28, 0.75) !important;
+    backdrop-filter: blur(30px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* Dynamic Glow when playing */
+body.music-playing .music-player {
+    box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+}
+
+/* Vinyl Spinning Album Cover */
+.mini-cover {
+    height: 48px !important;
+    width: 48px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #111, #222) !important;
+    border: 2px solid #2a2a35 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+}
+
+.mini-cover img {
+    border-radius: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+@keyframes spinVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+body.music-playing .mini-cover {
+    animation: spinVinyl 8s linear infinite !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* Progress bar hover */
+.progress-track {
+    transition: height 0.2s ease !important;
+}
+.progress-container:hover .progress-track {
+    height: 6px !important;
+}
+
+/* Awesome Play Button */
+.main-play {
+    width: 44px !important;
+    height: 44px !important;
+    background: linear-gradient(135deg, #a855f7, #6366f1) !important;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.main-play:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6) !important;
+}
+
+/* Mobile Pill-Shaped Floating Player */
+@media (max-width: 768px) {
+    .music-player {
+        bottom: 16px !important;
+        width: calc(100% - 32px) !important;
+        padding: 8px 16px !important;
+        border-radius: 100px !important;
+        grid-template-columns: 1fr auto !important;
+        grid-template-rows: auto !important;
+        min-height: 64px !important;
+    }
+    
+    .mini-cover {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .player-track {
+        gap: 12px !important;
+    }
+
+    .player-controls {
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+        margin-top: 5px !important;
+    }
+    
+    .music-player {
+        border-radius: 20px !important; /* Not a full pill because it has 2 rows */
+    }
+}
