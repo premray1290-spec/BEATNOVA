@@ -1,4 +1,4 @@
-﻿
+
 from flask import Flask, render_template, request, jsonify
 import urllib.request
 import json
@@ -210,6 +210,7 @@ def forgot_password():
 @app.route("/api/songs")
 def get_songs():
     query = request.args.get("q", "bollywood")
+    query = urllib.parse.quote(query)
 
     url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&q={query}&p=1&n=50&_format=json&_marker=0&api_version=4&ctx=web6dot0"
 
@@ -237,3 +238,4 @@ import os
 
 if __name__ == "__main__":
     app.run(debug=True)
+
