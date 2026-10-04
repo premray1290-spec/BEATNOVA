@@ -221,21 +221,41 @@ def get_trending():
 
 @app.route("/api/songs")
 def get_songs():
-    query = request.args.get("q", "bollywood")
-    query = urllib.parse.quote(query)
+    query = request.args.get("q", "bollywood").strip()
+    
+    def fetch_jiosaavn(q):
+        q_enc = urllib.parse.quote(q)
+        url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&q={q_enc}&p=1&n=50&_format=json&_marker=0&api_version=4&ctx=web6dot0"
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'Mozilla/5.0'}
+        )
+        try:
+            with urllib.request.urlopen(req) as response:
+                return json.loads(response.read().decode('utf-8'))
+        except Exception:
+            return {}
 
-    url = f"https://www.jiosaavn.com/api.php?__call=search.getResults&q={query}&p=1&n=50&_format=json&_marker=0&api_version=4&ctx=web6dot0"
+    data = fetch_jiosaavn(query)
 
-    req = urllib.request.Request(
-        url,
-        headers={'User-Agent': 'Mozilla/5.0'}
-    )
-
-    with urllib.request.urlopen(req) as response:
-        data = json.loads(response.read().decode('utf-8'))
+    # AI Auto-Correction for typos
+    if not data or not data.get("results") or len(data.get("results", [])) == 0:
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if api_key and genai:
+            try:
+                client = genai.Client(api_key=api_key)
+                prompt = f"Correct the spelling of this Hindi/Bollywood song or artist name: '{query}'. Reply ONLY with the correctly spelled name, nothing else. If it's already correct or you don't know, reply with the original."
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt,
+                )
+                corrected_query = response.text.strip()
+                if corrected_query and corrected_query.lower() != query.lower():
+                    data = fetch_jiosaavn(corrected_query)
+            except Exception as e:
+                print(f"Gemini AI Error: {e}")
 
     return jsonify(data)
-
 @app.route("/logout")
 def logout():
     session.clear()
