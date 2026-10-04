@@ -1,4 +1,4 @@
-﻿
+
 let tracks = [
     {
         title: "Loading...",
@@ -1877,6 +1877,21 @@ function renderQueue() {
         `;
 
         queueList.appendChild(queueItem);
+
+        queueItem.addEventListener("click", (e) => {
+            if (e.target.closest(".queue-remove")) return;
+            musicQueue.splice(index, 1);
+            renderQueue();
+            const existingIndex = tracks.findIndex(t => t.src === track.src);
+            if (existingIndex !== -1) {
+                loadTrack(existingIndex);
+            } else {
+                tracks.push(track);
+                loadTrack(tracks.length - 1);
+            }
+            playTrack();
+        });
+
     });
 
     document.querySelectorAll(".queue-remove").forEach(button => {
@@ -2051,6 +2066,10 @@ async function playArtistSongs(artist, card) {
 
         currentTrackIndex = 0;
 
+        musicQueue = artistTracks.slice(1);
+        renderQueue();
+        queuePanel.classList.add("active");
+
         loadTrack(0);
 
         await playTrack();
@@ -2080,4 +2099,6 @@ async function playArtistSongs(artist, card) {
 
 // Display artists on page load
 renderArtists();
+
+
 
