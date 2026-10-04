@@ -45,6 +45,7 @@
         <nav class="nav-links">
             <a class="active" href="#home">Home</a>
             <a href="#discover">Discover</a>
+            <a href="#artists">Artists</a>
             <a href="#recently-played">Recently Played</a>
             <a href="#playlists">My Playlists</a>
             <a href="#trending">Trending</a>
@@ -70,85 +71,153 @@
         </div>
     </header>
     <main>
-        <!-- TRENDING SECTION -->
-        <section class="content-section" id="trending">
-            <div class="section-heading">
-                <div>
-                    <span class="section-kicker">THE SOUND OF NOW</span>
-                    <h2>Trending <span class="gradient-text">on Beatnova.</span></h2>
-                    <p>Tracks making waves across the universe.</p>
-                </div>
-                <a class="view-all" href="#trending">View charts <span>↗</span></a>
-            </div>
-            <div class="track-grid">
-                <article class="track-card">
-                    <div class="track-cover cover-one">
-                        <span class="cover-shape">◉</span>
-                        <button aria-label="Play" class="cover-play">▶</button>
-                        <button aria-label="Add to favorites" class="favorite-btn">
-                            ♡
-                        </button>
-                    </div>
-                    <div class="track-details">
-                        <div>
-                            <h3>Midnight Echoes</h3>
-                            <p>Nova Collective</p>
-                        </div>
-                        <span class="track-duration">3:42</span>
-                    </div>
-                </article>
-                <article class="track-card">
-                    <div class="track-cover cover-two">
-                        <span class="cover-shape">✦</span>
-                        <button aria-label="Play" class="cover-play">▶</button>
-                        <button aria-label="Add to favorites" class="favorite-btn">
-                            ♡
-                        </button>
-                    </div>
-                    <div class="track-details">
-                        <div>
-                            <h3>Neon Dreams</h3>
-                            <p>Aria Sol</p>
-                        </div>
-                        <span class="track-duration">4:12</span>
-                    </div>
-                </article>
-                <article class="track-card">
-                    <div class="track-cover cover-three">
-                        <span class="cover-shape">∞</span>
-                        <button aria-label="Play" class="cover-play">▶</button>
-                        <button aria-label="Add to favorites" class="favorite-btn">
-                            ♡
-                        </button>
-                    </div>
-                    <div class="track-details">
-                        <div>
-                            <h3>Lost in Motion</h3>
-                            <p>Echo District</p>
-                        </div>
-                        <span class="track-duration">3:28</span>
-                    </div>
-                </article>
-                <article class="track-card">
-                    <div class="track-cover cover-four">
-                        <span class="cover-shape">☼</span>
-                        <button aria-label="Play" class="cover-play">▶</button>
-                        <button aria-label="Add to favorites" class="favorite-btn">
-                            ♡
-                        </button>
-                    </div>
-                    <div class="track-details">
-                        <div>
-                            <h3>Golden Hour</h3>
-                            <p>Solstice</p>
-                        </div>
-                        <span class="track-duration">3:56</span>
-                    </div>
-                </article>
-            </div>
-        </section>
-        <!-- HERO SECTION -->
+        <!-- TRENDING + ARTISTS -->
+        <div class="trending-artists-layout">
 
+            <!-- TRENDING SECTION -->
+            <section class="content-section" id="trending">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">THE SOUND OF NOW</span>
+                        <h2>Trending <span class="gradient-text">on Beatnova.</span></h2>
+                        <p>Tracks making waves across the universe.</p>
+                    </div>
+
+                    <a class="view-all" href="#trending">
+                        View charts <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="track-grid">
+
+                    <article class="track-card">
+                        <div class="track-cover cover-one">
+                            <span class="cover-shape">◉</span>
+
+                            <button aria-label="Play" class="cover-play">
+                                ▶
+                            </button>
+
+                            <button aria-label="Add to favorites" class="favorite-btn">
+                                ♡
+                            </button>
+                        </div>
+
+                        <div class="track-details">
+                            <div>
+                                <h3>Midnight Echoes</h3>
+                                <p>Nova Collective</p>
+                            </div>
+
+                            <span class="track-duration">3:42</span>
+                        </div>
+                    </article>
+
+
+                    <article class="track-card">
+                        <div class="track-cover cover-two">
+                            <span class="cover-shape">✦</span>
+
+                            <button aria-label="Play" class="cover-play">
+                                ▶
+                            </button>
+
+                            <button aria-label="Add to favorites" class="favorite-btn">
+                                ♡
+                            </button>
+                        </div>
+
+                        <div class="track-details">
+                            <div>
+                                <h3>Neon Dreams</h3>
+                                <p>Aria Sol</p>
+                            </div>
+
+                            <span class="track-duration">4:12</span>
+                        </div>
+                    </article>
+
+
+                    <article class="track-card">
+                        <div class="track-cover cover-three">
+                            <span class="cover-shape">∞</span>
+
+                            <button aria-label="Play" class="cover-play">
+                                ▶
+                            </button>
+
+                            <button aria-label="Add to favorites" class="favorite-btn">
+                                ♡
+                            </button>
+                        </div>
+
+                        <div class="track-details">
+                            <div>
+                                <h3>Lost in Motion</h3>
+                                <p>Echo District</p>
+                            </div>
+
+                            <span class="track-duration">3:28</span>
+                        </div>
+                    </article>
+
+
+                    <article class="track-card">
+                        <div class="track-cover cover-four">
+                            <span class="cover-shape">☼</span>
+
+                            <button aria-label="Play" class="cover-play">
+                                ▶
+                            </button>
+
+                            <button aria-label="Add to favorites" class="favorite-btn">
+                                ♡
+                            </button>
+                        </div>
+
+                        <div class="track-details">
+                            <div>
+                                <h3>Golden Hour</h3>
+                                <p>Solstice</p>
+                            </div>
+
+                            <span class="track-duration">3:56</span>
+                        </div>
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- ARTISTS SECTION -->
+            <section class="content-section artists-section" id="artists">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">YOUR FAVORITE VOICES</span>
+
+                        <h2>
+                            Popular <span class="gradient-text">Artists.</span>
+                        </h2>
+
+                        <p>
+                            Discover music from the voices you love.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="artists-grid" id="artistsGrid">
+                    <!-- Artist cards will load automatically here -->
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- DISCOVERY SECTION -->
         <!-- DISCOVERY SECTION -->
         <section class="content-section" id="discover">
             <div class="section-heading">
