@@ -2119,3 +2119,13 @@ renderArtists();
 
 
 
+
+
+const playerTrack = document.querySelector(".player-track");
+if (playerTrack && fullscreenPlayer) {
+    playerTrack.addEventListener("click", () => {
+        fullscreenPlayer.classList.add("active");
+        updateFullscreenPlayer();
+    });
+    playerTrack.style.cursor = "pointer";
+}

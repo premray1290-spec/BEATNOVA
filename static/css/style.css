@@ -4647,7 +4647,9 @@ body.music-playing .music-player {
     height: 48px !important;
     width: 48px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, #111, #222) !important;
+    background-color: #111 !important;
+    background-size: cover !important;
+    background-position: center !important;
     border: 2px solid #2a2a35 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important;
     overflow: hidden !important;
