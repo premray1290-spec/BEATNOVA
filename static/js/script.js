@@ -21,9 +21,13 @@ function decryptJioSaavnUrl(encUrl) {
     } catch (e) { return ""; }
 }
 
-async function fetchSongsFromServer(searchQuery = "bollywood", showSearchResults = false) {
+async function fetchSongsFromServer(searchQuery = "trending", showSearchResults = false) {
     try {
-        const res = await fetch("/api/songs?q=" + encodeURIComponent(searchQuery));
+                let apiUrl = "/api/songs?q=" + encodeURIComponent(searchQuery);
+        if (searchQuery === "trending") {
+            apiUrl = "/api/trending";
+        }
+        const res = await fetch(apiUrl);
         const data = await res.json();
 
         if (data.results && data.results.length > 0) {

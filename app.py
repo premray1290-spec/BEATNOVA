@@ -207,6 +207,18 @@ def forgot_password():
     return render_template("forgot_password.html")
 
 # Songs API
+
+@app.route("/api/trending")
+def get_trending():
+    url = "https://www.jiosaavn.com/api.php?__call=webapi.get&token=BECHl0fsh08_&type=playlist&p=1&n=20&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0"
+    req = urllib.request.Request(
+        url,
+        headers={'User-Agent': 'Mozilla/5.0'}
+    )
+    with urllib.request.urlopen(req) as response:
+        data = json.loads(response.read().decode('utf-8'))
+    return jsonify({"results": data.get("list", [])})
+
 @app.route("/api/songs")
 def get_songs():
     query = request.args.get("q", "bollywood")
