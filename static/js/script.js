@@ -1893,3 +1893,191 @@ function renderQueue() {
     });
 }
 
+
+// =============================
+// BEATNOVA ARTISTS
+// =============================
+
+const artists = [
+    "Arijit Singh",
+    "Shreya Ghoshal",
+    "Atif Aslam",
+    "Neha Kakkar",
+    "Jubin Nautiyal",
+    "Sonu Nigam",
+    "Armaan Malik",
+    "Darshan Raval",
+    "Sunidhi Chauhan",
+    "Mohit Chauhan",
+    "KK",
+    "Vishal Mishra"
+];
+
+const artistsGrid = document.getElementById("artistsGrid");
+
+// Load singer photos and display artist cards
+async function getArtistImage(name) {
+    try {
+        const response = await fetch(
+            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`
+        );
+
+        if (!response.ok) return "";
+
+        const data = await response.json();
+
+        return data.thumbnail?.source || "";
+    } catch (error) {
+        return "";
+    }
+}
+
+async function renderArtists() {
+    if (!artistsGrid) return;
+
+    artistsGrid.innerHTML = "";
+
+    artists.forEach((artist) => {
+        const card = document.createElement("article");
+        card.className = "artist-card";
+
+        card.innerHTML = `
+            <div class="artist-image-wrapper">
+                <img class="artist-image"
+                     src=""
+                     alt="${artist}"
+                     loading="lazy">
+            </div>
+
+            <h3>${artist}</h3>
+            <p>Artist</p>
+
+            <button class="artist-play-button" aria-label="Play ${artist}">
+                ▶
+            </button>
+        `;
+
+        const image = card.querySelector(".artist-image");
+
+        getArtistImage(artist).then((imageUrl) => {
+            if (imageUrl) {
+                image.src = imageUrl;
+            } else {
+                image.src = "https://placehold.co/300x300/21152f/ffffff?text=♫";
+            }
+        });
+
+        card.addEventListener("click", () => {
+            // Unlock audio for mobile
+            audio.play().catch(() => {});
+            playArtistSongs(artist, card);
+        });
+
+        artistsGrid.appendChild(card);
+    });
+}
+
+// Fetch and play songs of selected artist
+async function playArtistSongs(artist, card) {
+    try {
+        if (card) {
+            card.classList.add("loading");
+        }
+
+        const response = await fetch(
+            "/api/songs?q=" + encodeURIComponent(artist)
+        );
+
+        if (!response.ok) {
+            throw new Error("Server response: " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data.results || !Array.isArray(data.results)) {
+            throw new Error("No songs found");
+        }
+
+        const artistTracks = data.results
+            .map((item) => {
+
+                let artistName = "Unknown Artist";
+
+                if (
+                    item.more_info &&
+                    item.more_info.artistMap &&
+                    item.more_info.artistMap.primary_artists &&
+                    item.more_info.artistMap.primary_artists.length > 0
+                ) {
+                    artistName =
+                        item.more_info.artistMap.primary_artists
+                            .map((a) => a.name)
+                            .join(", ");
+                }
+
+                let songUrl = "";
+
+                if (
+                    item.more_info &&
+                    item.more_info.encrypted_media_url
+                ) {
+                    songUrl = decryptJioSaavnUrl(
+                        item.more_info.encrypted_media_url
+                    );
+                }
+
+                return {
+                    title: (item.title || "Unknown Song")
+                        .replace(/&quot;/g, '"')
+                        .replace(/&amp;/g, "&"),
+
+                    artist: artistName,
+
+                    src: songUrl,
+
+                    image: item.image
+                        ? item.image.replace("150x150", "500x500")
+                        : ""
+                };
+            })
+            .filter((track) => track.src);
+
+        if (artistTracks.length === 0) {
+            alert("Is singer ke playable songs nahi mile.");
+            return;
+        }
+
+        tracks = artistTracks;
+
+        currentTrackIndex = 0;
+
+        loadTrack(0);
+
+        await playTrack();
+
+        const player = document.querySelector(".music-player");
+
+        if (player) {
+            player.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+
+    } catch (error) {
+        console.error("Artist playlist error:", error);
+
+        alert("Songs load nahi ho paaye. Dobara try karo.");
+
+    } finally {
+        if (card) {
+            card.classList.remove("loading");
+        }
+    }
+}
+
+   
+
+// Display artists on page load
+renderArtists();
+
