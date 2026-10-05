@@ -208,9 +208,19 @@ def forgot_password():
 
 # Songs API
 
+import random
+
 @app.route("/api/trending")
 def get_trending():
-    url = "https://www.jiosaavn.com/api.php?__call=webapi.get&token=BECHl0fsh08_&type=playlist&p=1&n=20&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0"
+    # Shuffle through different top playlists so trending songs change frequently
+    trending_tokens = [
+        "BECHl0fsh08_",               # Now Trending
+        "VuJUPQ9ch77bB,U5Yp5iAA__",   # India Superhits Top 50
+        "csv-SfcHUmHc1EngHtQQ2g__",   # Most Searched Songs Hindi
+        "zlJfJYVuyjpxWb5,FqsjKg__"    # Hindi India Superhits
+    ]
+    chosen_token = random.choice(trending_tokens)
+    url = f"https://www.jiosaavn.com/api.php?__call=webapi.get&token={chosen_token}&type=playlist&p=1&n=30&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0"
     req = urllib.request.Request(
         url,
         headers={'User-Agent': 'Mozilla/5.0'}
