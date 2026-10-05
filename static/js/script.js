@@ -2135,26 +2135,48 @@ if (playerTrack && fullscreenPlayer) {
    FULLSCREEN SWIPE GESTURES
 ================================= */
 if (fullscreenPlayer) {
-    let touchStartX = 0;
-    let touchEndX = 0;
+    let startX = 0;
+    let endX = 0;
+    let isDragging = false;
 
+    // --- Touch Events (Mobile) ---
     fullscreenPlayer.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
+        startX = e.changedTouches[0].screenX;
     }, {passive: true});
 
     fullscreenPlayer.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
+        endX = e.changedTouches[0].screenX;
         handleSwipe();
     }, {passive: true});
 
+    // --- Mouse Events (PC) ---
+    fullscreenPlayer.addEventListener('mousedown', e => {
+        startX = e.clientX;
+        isDragging = true;
+    });
+
+    fullscreenPlayer.addEventListener('mouseup', e => {
+        if (!isDragging) return;
+        endX = e.clientX;
+        isDragging = false;
+        handleSwipe();
+    });
+
+    fullscreenPlayer.addEventListener('mouseleave', e => {
+        if (!isDragging) return;
+        endX = e.clientX;
+        isDragging = false;
+        handleSwipe();
+    });
+
     function handleSwipe() {
         const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // Swipe Left -> Next Track
+        if (endX < startX - swipeThreshold) {
+            // Swipe/Drag Left -> Next Track
             if (typeof nextTrack === 'function') nextTrack();
         }
-        if (touchEndX > touchStartX + swipeThreshold) {
-            // Swipe Right -> Previous Track
+        if (endX > startX + swipeThreshold) {
+            // Swipe/Drag Right -> Previous Track
             if (typeof previousTrack === 'function') previousTrack();
         }
     }
