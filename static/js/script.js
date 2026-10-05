@@ -2129,3 +2129,33 @@ if (playerTrack && fullscreenPlayer) {
     });
     playerTrack.style.cursor = "pointer";
 }
+
+
+/* =================================
+   FULLSCREEN SWIPE GESTURES
+================================= */
+if (fullscreenPlayer) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    fullscreenPlayer.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    fullscreenPlayer.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe Left -> Next Track
+            if (typeof nextTrack === 'function') nextTrack();
+        }
+        if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe Right -> Previous Track
+            if (typeof previousTrack === 'function') previousTrack();
+        }
+    }
+}
